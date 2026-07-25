@@ -22,16 +22,18 @@ cp ../../bootsplash.jpg pc-bios/bootsplash.jpg # modify seabios bootsplash.jpg
 #sed -i 's/current_machine->boot_config.splash;/"\/usr\/share\/bootsplash.jpg";/g' hw/nvram/fw_cfg.c # modify seabios bootsplash.jpg
 sed -i 's/!object_dynamic_cast/object_dynamic_cast/g' hw/vfio/igd.c
 
-#bash ../../1plus.sh   		# 1plus modidy cpu P-core+E-core
+#bash ../../1plus.sh   		    # 1plus modidy cpu P-core+E-core and more,amd and intel different.
 
-#bash ../../2plus.sh   		# 2plus modidy more cpu 
+#bash ../../2plus.sh   		    # 2plus modidy acpi and virtIO pciids.
 
-#bash ../../3StrongStart.sh 	# 3StrongStart.sh q35 virtIO and roms
+#bash ../../2plus-amd.sh   		# 2plus added modidy only amd more pciids.
+
+#bash ../../3StrongStart.sh 	# 3StrongStart.sh modify moniter q35 and roms.
 
 git diff --submodule=diff > qemu-autoGenPatch.patch
 cp qemu-autoGenPatch.patch ../
 
-#bash ../../3StrongEnd.sh 		# 3StrongEnd.sh
+#bash ../../3StrongEnd.sh 		# 3StrongEnd.sh build roms.
 
 ./configure --target-list=x86_64-softmmu --enable-kvm
 make clean
