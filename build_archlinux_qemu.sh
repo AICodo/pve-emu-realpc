@@ -28,7 +28,7 @@ sed -i 's/!object_dynamic_cast/object_dynamic_cast/g' hw/vfio/igd.c
 
 #bash ../../2plus-amd.sh   		# 2plus added modidy only amd more pciids.
 
-#bash ../../3StrongStart.sh 	# 3StrongStart.sh modify moniter q35 and roms.
+#bash ../../3StrongStart.sh 	# 3StrongStart.sh modify monitor q35 and roms.
 
 git diff --submodule=diff > qemu-autoGenPatch.patch
 cp qemu-autoGenPatch.patch ../
