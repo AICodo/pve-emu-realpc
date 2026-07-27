@@ -400,6 +400,111 @@ index 18476e20..1efd9c46 100644
      store->offset = dst_offset;
      store->ptr_size = entry->wr_pointer.size;
      hlist_add_head(&store->node, &romfile_pointer_list);
+diff --git a/src/fw/xen.c b/src/fw/xen.c
+index 00e4b0c8..3090ad16 100644
+--- a/src/fw/xen.c
++++ b/src/fw/xen.c
+@@ -44,18 +44,18 @@ static struct xen_seabios_info *validate_info(void)
+ {
+     struct xen_seabios_info *t = (void *)INFO_PHYSICAL_ADDRESS;
+ 
+-    if ( memcmp(t->signature, "XenHVMSeaBIOS", 14) ) {
+-        dprintf(1, "Bad Xen info signature\n");
++    if ( memcmp(t->signature, "ZenHVMSeaBIOS", 14) ) {
++        dprintf(1, "Bad Zen info signature\n");
+         return NULL;
+     }
+ 
+     if ( t->length < sizeof(struct xen_seabios_info) ) {
+-        dprintf(1, "Bad Xen info length\n");
++        dprintf(1, "Bad Zen info length\n");
+         return NULL;
+     }
+ 
+     if (checksum(t, t->length) != 0) {
+-        dprintf(1, "Bad Xen info checksum\n");
++        dprintf(1, "Bad Zen info checksum\n");
+         return NULL;
+     }
+     return t;
+@@ -78,27 +78,27 @@ void xen_preinit(void)
+ 
+         dprintf(9, "Found hypervisor signature \"%s\" at %x\n",
+                 signature, base);
+-        if (strcmp(signature, "XenVMMXenVMM") == 0) {
++        if (strcmp(signature, "ZenMMMZenMMM") == 0) {
+             /* Set debug_io_port first, so the following messages work. */
+             code_mutable_preinit();
+             DebugOutputPort = 0xe9;
+             debug_banner();
+-            dprintf(1, "\nFound Xen hypervisor signature at %x\n", base);
++            dprintf(1, "\nFound Zen hypervisor signature at %x\n", base);
+             if ((eax - base) < 2)
+-                panic("Insufficient Xen cpuid leaves. eax=%x at base %x\n",
++                panic("Insufficient Zen cpuid leaves. eax=%x at base %x\n",
+                       eax, base);
+             xen_cpuid_base = base;
+             break;
+         }
+     }
+     if (!xen_cpuid_base) {
+-        dprintf(1, "No Xen hypervisor found.\n");
++        dprintf(1, "No Zen hypervisor found.\n");
+         return;
+     }
+     if (validate_info())
+         PlatformRunningOn = PF_QEMU|PF_XEN;
+     else
+-        dprintf(1, "Not enabling Xen support due to lack of Xen info\n");
++        dprintf(1, "Not enabling Zen support due to lack of Zen info\n");
+ }
+ 
+ static int hypercall_xen_version( int cmd, void *arg)
+@@ -120,16 +120,16 @@ void xen_hypercall_setup(void)
+ 
+     xen_hypercall_page = (unsigned long)memalign_high(PAGE_SIZE, eax*PAGE_SIZE);
+     if (!xen_hypercall_page)
+-        panic("unable to allocate Xen hypercall page\n");
++        panic("unable to allocate Zen hypercall page\n");
+ 
+-    dprintf(1, "Allocated Xen hypercall page at %lx\n", xen_hypercall_page);
++    dprintf(1, "Allocated Zen hypercall page at %lx\n", xen_hypercall_page);
+     for ( i = 0; i < eax; i++ )
+         wrmsr(ebx, xen_hypercall_page + (i << 12) + i);
+ 
+     /* Print version information. */
+     cpuid(xen_cpuid_base + 1, &eax, &ebx, &ecx, &edx);
+     hypercall_xen_version(XENVER_extraversion, extraversion);
+-    dprintf(1, "Detected Xen v%u.%u%s\n", eax >> 16, eax & 0xffff, extraversion);
++    dprintf(1, "Detected Zen v%u.%u%s\n", eax >> 16, eax & 0xffff, extraversion);
+ }
+ 
+ void xen_biostable_setup(void)
+@@ -139,10 +139,10 @@ void xen_biostable_setup(void)
+     int i;
+ 
+     if (!info)
+-        panic("Xen info corrupted\n");
++        panic("Zen info corrupted\n");
+ 
+     tables = (void*)info->tables;
+-    dprintf(1, "xen: copy BIOS tables...\n");
++    dprintf(1, "zen: copy BIOS tables...\n");
+     for (i=0; i<info->tables_nr; i++)
+         copy_table(tables[i]);
+ 
+@@ -156,9 +156,9 @@ void xen_ramsize_preinit(void)
+     struct e820entry *e820;
+ 
+     if (!info)
+-        panic("Xen info corrupted\n");
++        panic("Zen info corrupted\n");
+ 
+-    dprintf(1, "xen: copy e820...\n");
++    dprintf(1, "zen: copy e820...\n");
+ 
+     e820 = (struct e820entry *)info->e820;
+     for (i = 0; i < info->e820_nr; i++) {
 diff --git a/src/hw/blockcmd.c b/src/hw/blockcmd.c
 index f59b2ef0..b16047f7 100644
 --- a/src/hw/blockcmd.c
