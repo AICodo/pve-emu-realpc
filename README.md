@@ -8,7 +8,7 @@ Language [<a href="README.md">中文</a>] | [<a href="README.en.MD">English</a>]
 PVE Debain Ubuntu ArchLinux virtual machine emulates a physical machine （pve Debian Ubuntu ArchLinux虚拟机模拟真实机器）
 
 
-20060228更新：发布10.1.2-7_amd64_Strong can dynamically display CPU information such as temperature, MHz, voltage, and power consumption in a Windows VM.Use cpu-z,hwinfo,hwmoniter.Intel和AMD CPU传感器穿透到虚拟机显示。
+20260228更新：发布10.1.2-7_amd64_Strong can dynamically display CPU information such as temperature, MHz, voltage, and power consumption in a Windows VM.Use cpu-z,hwinfo,hwmoniter.Intel和AMD CPU传感器穿透到虚拟机显示。
 
 Intel CPU传感器穿透效果演示视频<img width="1545" height="1154" alt="inteldemo" src="https://github.com/user-attachments/assets/e5c2f90b-7e65-45d3-bbc4-6825551d421d" />
 
