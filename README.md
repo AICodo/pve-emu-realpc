@@ -5,7 +5,7 @@ For all qemu, see https://github.com/AICodo/qemu-emu-realpc
 
 Language [<a href="README.md">中文</a>] | [<a href="README.en.MD">English</a>] Thanks for https://github.com/mk990 translate。
 
-PVE Debain Ubuntu ArchLinux virtual machine emulates a physical machine （pve Debian Ubuntu ArchLinux虚拟机模拟真实机器）
+X86-64 PVE Debain Ubuntu ArchLinux virtual machine emulates a physical machine （pve Debian Ubuntu ArchLinux虚拟机模拟真实机器）
 
 
 20260228更新：发布10.1.2-7_amd64_Strong can dynamically display CPU information such as temperature, MHz, voltage, and power consumption in a Windows VM.Use cpu-z,hwinfo,hwmoniter.Intel和AMD CPU传感器穿透到虚拟机显示。
