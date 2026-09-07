@@ -5,7 +5,7 @@ For all qemu, see https://github.com/AICodo/qemu-emu-realpc
 
 Language [<a href="README.md">中文</a>] | [<a href="README.en.MD">English</a>] Thanks for https://github.com/mk990 translate。
 
-X86-64 PVE Debain Ubuntu ArchLinux virtual machine emulates a physical machine （pve Debian Ubuntu ArchLinux虚拟机模拟真实机器）
+X64 and Arm64 PVE Debain Ubuntu ArchLinux virtual machine emulates a physical machine （X64 and Arm64 pve Debian Ubuntu ArchLinux虚拟机模拟真实机器）
 
 
 20260228更新：发布10.1.2-7_amd64_Strong can dynamically display CPU information such as temperature, MHz, voltage, and power consumption in a Windows VM.Use cpu-z,hwinfo,hwmoniter.Intel和AMD CPU传感器穿透到虚拟机显示。
@@ -19,6 +19,8 @@ AMD CPU传感器穿透效果演示视频<img width="1478" height="1182" alt="amd
 
 
 https://github.com/user-attachments/assets/69a922ea-df2c-4d13-94cc-d40736336b2e
+
+20260907更新：新增Arm64版本，Arm64和X64版本以后同步更新！！
 
 20250906更新：已取消主板型号随机（可自己定制），取消内存序列号随机（可自己定制），ide sata硬盘自己设置serial=20位序列号进行定制固定（不固定内部默认还是随机）。n卡独显直通43错误请二者选其一：ssdt.aml（不带电池）和ssdt-battery.aml（带个虚拟电池），台式机u选无电池，笔记本u选有电池，加载ssdt后43错误解决了就行。
 
@@ -39,7 +41,7 @@ pve网页 数据中心-》选项-》MAC地址前缀你先改成D8:FC:93
 
 2、正式开始
 
-请把2个deb包和1个文件
+请把2个deb包和1个文件（x64）
 
 pve-qemu-kvm_10.xxx_amd64.deb  本项目下载  xxx代表你具体下载的版本
 
@@ -50,11 +52,11 @@ ssdt.aml
 这3个请用winscp 上传到/root目录下
 
 
-3、查询目前安装的kvm包版本命令
+3、查询目前安装的kvm包版本命令（x64）
 
 dpkg -l|grep pve-qemu-kvm
 
-4、如果是10.x，直接安装这2个包就是
+4、如果是10.x，直接安装这2个包就是（x64）
 
 dpkg -i pve-qemu-kvm_10.xxx_amd64.deb  xxx代表你具体下载的版本
 
@@ -83,7 +85,7 @@ apt reinstall pve-qemu-kvm
 
 apt reinstall pve-edk2-firmware-ovmf 或者 apt reinstall pve-edk2-firmware-ovmf=4.2025.02-4
 
-5、新建虚拟机
+5、新建虚拟机（x64）
 
 虚拟机使用ovmf+q35（推荐q35）或者ovmf+i440fx，配置中注意硬盘一定选择sata硬盘（至少128g，50g 80g等大小太不像物理机硬盘大小，别对硬盘大小太抠抠扣扣搜搜了，scsi及virtio硬盘光驱网卡设备等避开使用），ide或者sata光驱，显示先选择标准（弄好后再直通独显核显vgpu等），cpu选择host（1插槽多核心这点一定注意），网卡选择e1000显卡（注意网卡mac地址问题，免得检测到是虚拟机），避开各种virtio设备（SCSI硬盘光驱、virtio网卡、virtioBlock硬盘、virtio-GPU等），并修改虚拟机的args参数和我一样。内存请使用8192 16384 4096这三个数值并且不开ballooning（更加像物理机内存大小），对应8g 16g 4g，其他大小请勿设置（太假太像虚拟机）。
 
@@ -145,7 +147,7 @@ vmgenid: 2271babc-cafc-4c68-be8b-2bb3157c9924
 
 args: -acpitable file=/root/ssdt.aml -cpu host,host-cache-info=on,hypervisor=off,vmware-cpuid-freq=false,enforce=false,host-phys-bits=true -smbios type=0,vendor="American Megatrends International LLC.",version=H3.7G,date='02/21/2023',release=3.7 -smbios type=1,manufacturer="Maxsun",product="MS-Terminator B760M",version="VER:H3.7G(2022/11/29)",serial="Default string",sku="Default string",family="Default string" -smbios type=2,manufacturer="Maxsun",product="MS-Terminator B760M",version="VER:H3.7G(2022/11/29)",serial="Default string",asset="Default string",location="Default string" -smbios type=3,manufacturer="Default string",version="Default string",serial="Default string",asset="Default string",sku="Default string" -smbios type=17,loc_pfx="Controller0-ChannelA-DIMM",manufacturer="KINGSTON",speed=3200,serial=DF1EC466,part="SED3200U1888S",bank="BANK 0",asset="9876543210" -smbios type=4,sock_pfx="LGA1700",manufacturer="Intel(R) Corporation",version="12th Gen Intel(R) Core(TM) i7-12700",max-speed=4900,current-speed=3800,serial="To Be Filled By O.E.M.",asset="To Be Filled By O.E.M.",part="To Be Filled By O.E.M." -smbios type=8,internal_reference="CPU FAN",external_reference="Not Specified",connector_type=0xFF,port_type=0xFF -smbios type=8,internal_reference="J3C1 - GMCH FAN",external_reference="Not Specified",connector_type=0xFF,port_type=0xFF -smbios type=8,internal_reference="J2F1 - LAI FAN",external_reference="Not Specified",connector_type=0xFF,port_type=0xFF -smbios type=11,value="Default string"
 
-6、其他内容详见本项目tools目录，密码123虚拟机检测工具.rar，还有高级检测软件vmcheckv2.zip vmcheckv2.1.zip。高级检测里面有vmaware,al-khaser和pafish64.exe。
+6、其他内容详见本项目tools目录，密码123虚拟机检测工具.rar，还有高级检测软件vmcheckv2.zip vmcheckv2.1.zip。高级检测里面有vmaware,al-khaser和pafish64.exe。（x64）
 
 
 本项目抛砖引玉，欢迎fork本项目后自我继续折腾！！！
