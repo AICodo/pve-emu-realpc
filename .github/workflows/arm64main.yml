@@ -1,0 +1,88 @@
+name: 1.Build pve qemu anti detection arm64 deb
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch: 
+
+jobs:
+  build:
+    runs-on: ubuntu-26.04-arm
+    permissions: write-all
+    container: ghcr.io/aicodo/armpve9docker:main
+    env:
+      TZ: Asia/Shanghai
+    steps:
+      # Step 1: 检出代码
+      - name: 1-checkout
+        uses: actions/checkout@v3
+        with:  
+          submodules: 'true'
+
+      # Step 2: 安装构建所需的软件包
+      - name: 2-Install base package
+        run: |
+          uname -a
+          sudo apt update && apt install build-* bc dosfstools iasl mtools nasm \
+          python3 python3-pexpect qemu-utils uuid-dev xorriso curl -y
+
+      # Step 3: 构建 deb 文件
+      - name: 3-Build
+        run: |
+          sudo bash build_pve_qemu.sh
+          mkdir -p artifacts
+          find ./ -name "*.deb" -exec cp {} ./artifacts/ \;
+          find ./ -name "*autoGenPatch.patch" -exec cp {} ./artifacts/ \;
+          find ./ -name "*.aml" -exec cp {} ./artifacts/ \;
+          
+
+      # Step 4: 上传工件
+      - name: 4-Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pve-qemu-arm64
+          path: artifacts/*
+
+      # Step 5: 获取当前时间
+      - name: 5-Get current time
+        id: current-time
+        uses: josStorer/get-current-time@v2.0.2
+        with:
+          format: YYYYMMDD-HHmmSS
+          utcOffset: "+08:00"
+
+      # Step 6: 列出 artifacts 目录中的文件
+      - name: 6-List artifacts directory
+        run: |
+          echo "Listing files in artifacts directory:"
+          ls -l artifacts/
+          cd artifacts
+          rm *dbgsym*
+
+      # Step 7: 创建 GitHub Release
+      - name: 7-Create GitHub Releases
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ format('v{0}-pve9-arm64', steps.current-time.outputs.formattedTime) }}
+          release_name: ${{ format('v11.x build-{0} for pve9', steps.current-time.outputs.formattedTime) }}
+          body: |
+            build pve qemu deb form v7.0.0-1 to v11.x for arm64
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 8: 上传 deb 文件到 Release
+      - name: 8-Upload each deb file to release
+        run: |
+          for file in ${GITHUB_WORKSPACE}/artifacts/*; do
+            echo "Uploading $file"
+            echo "file=$file" >> $GITHUB_ENV
+            # 调用上传动作
+            curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Content-Type: application/octet-stream" \
+              --data-binary @"$file" \
+              "https://uploads.github.com/repos/${{ github.repository }}/releases/${{ steps.create_release.outputs.id }}/assets?name=$(basename $file)"
+          done
