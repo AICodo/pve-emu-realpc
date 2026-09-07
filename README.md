@@ -7,6 +7,7 @@ Language [<a href="README.md">中文</a>] | [<a href="README.en.MD">English</a>]
 
 X64 and Arm64 PVE Debain Ubuntu ArchLinux virtual machine emulates a physical machine （X64 and Arm64 pve Debian Ubuntu ArchLinux虚拟机模拟真实机器）
 
+20260907更新：新增Arm64版本，Arm64和X64版本以后同步更新！！
 
 20260228更新：发布10.1.2-7_amd64_Strong can dynamically display CPU information such as temperature, MHz, voltage, and power consumption in a Windows VM.Use cpu-z,hwinfo,hwmoniter.Intel和AMD CPU传感器穿透到虚拟机显示。
 
@@ -20,7 +21,6 @@ AMD CPU传感器穿透效果演示视频（X64）<img width="1478" height="1182"
 
 https://github.com/user-attachments/assets/69a922ea-df2c-4d13-94cc-d40736336b2e
 
-20260907更新：新增Arm64版本，Arm64和X64版本以后同步更新！！
 
 20250906更新：已取消主板型号随机（可自己定制），取消内存序列号随机（可自己定制），ide sata硬盘自己设置serial=20位序列号进行定制固定（不固定内部默认还是随机）。n卡独显直通43错误请二者选其一：ssdt.aml（不带电池）和ssdt-battery.aml（带个虚拟电池），台式机u选无电池，笔记本u选有电池，加载ssdt后43错误解决了就行。
 
@@ -29,7 +29,7 @@ https://github.com/user-attachments/assets/69a922ea-df2c-4d13-94cc-d40736336b2e
 20250725更新：实现了无序三件套效果（只需要重启一下虚拟机就自动变化）：内存序列号随机，ide和sata硬盘序列号和固件号随机，主板型号随机
 
 
-1、前期准备工作：
+1、前期准备工作（x64）
 
 pve网页 数据中心-》选项-》MAC地址前缀你先改成D8:FC:93
 
@@ -39,9 +39,9 @@ pve网页 数据中心-》选项-》MAC地址前缀你先改成D8:FC:93
 
 
 
-2、正式开始
+2、正式开始（x64）
 
-请把2个deb包和1个文件（x64）
+请把2个deb包和1个文件
 
 pve-qemu-kvm_10.xxx_amd64.deb  本项目下载  xxx代表你具体下载的版本
 
