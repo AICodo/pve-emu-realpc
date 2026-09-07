@@ -1,7 +1,7 @@
 ## Other Project
 For all qemu, see https://github.com/AICodo/qemu-emu-realpc
 
-# PVE Emulates A Physical Machine
+# PVE Emulates A Physical Machine X64 Readme
 
 Language [<a href="README.md">中文</a>] | [<a href="README.en.MD">English</a>] Thanks for https://github.com/mk990 translate。
 
