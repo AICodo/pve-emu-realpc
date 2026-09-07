@@ -1,4 +1,4 @@
-name: 3.Build Ubuntu qemu anti detection binary
+name: 3.Build X64 Ubuntu qemu anti detection binary
 
 on:
   push:
