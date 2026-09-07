@@ -1,4 +1,4 @@
-name: 1.Build pve qemu anti detection deb
+name: 1.Build pve qemu anti detection x64 deb
 
 on:
   push:
@@ -68,7 +68,7 @@ jobs:
           tag_name: ${{ format('v{0}-pve9', steps.current-time.outputs.formattedTime) }}
           release_name: ${{ format('v11.x build-{0} for pve9', steps.current-time.outputs.formattedTime) }}
           body: |
-            build pve qemu deb form v7.0.0-1 to v11.x.
+            build pve qemu deb form v7.0.0-1 to v11.x for x64
           draft: false
           prerelease: false
         env:
