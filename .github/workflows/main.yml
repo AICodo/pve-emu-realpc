@@ -1,4 +1,4 @@
-name: 1.Build pve qemu anti detection x64 deb
+name: 1.Build X64 pve qemu anti detection deb
 
 on:
   push:
