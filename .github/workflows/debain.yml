@@ -1,4 +1,4 @@
-name: 2.Build Debian qemu anti detection binary
+name: 2.Build X64 Debian qemu anti detection binary
 
 on:
   push:
