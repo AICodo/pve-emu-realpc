@@ -1,4 +1,4 @@
-name: 4.Build ArchLinux qemu anti detection binary
+name: 4.Build X64 ArchLinux qemu anti detection binary
 
 on:
   push:
