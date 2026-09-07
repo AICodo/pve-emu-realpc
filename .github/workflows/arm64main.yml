@@ -59,6 +59,7 @@ jobs:
           ls -l artifacts/
           cd artifacts
           rm *dbgsym*
+          rm *ovmf*
 
       # Step 7: 创建 GitHub Release
       - name: 7-Create GitHub Releases
