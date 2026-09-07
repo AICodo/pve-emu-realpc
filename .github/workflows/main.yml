@@ -66,7 +66,7 @@ jobs:
         uses: actions/create-release@v1
         with:
           tag_name: ${{ format('v{0}-pve9-x64', steps.current-time.outputs.formattedTime) }}
-          release_name: ${{ format('v11.x build-{0} for pve9', steps.current-time.outputs.formattedTime) }}
+          release_name: ${{ format('v11.x build-{0} for pve9 x64', steps.current-time.outputs.formattedTime) }}
           body: |
             build pve qemu deb form v7.0.0-1 to v11.x for x64
           draft: false
