@@ -153,11 +153,6 @@ args: -acpitable file=/root/ssdt.aml -cpu host,host-cache-info=on,hypervisor=off
 本项目抛砖引玉，欢迎fork本项目后自我继续折腾！！！
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=AICodo/pve-emu-realpc&type=Date)](https://www.star-history.com/#AICodo/pve-emu-realpc&Date)
-
-
-
-
 
 
 
